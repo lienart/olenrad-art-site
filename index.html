@@ -72,13 +72,88 @@
   text-decoration: underline;
 }
 
+
+.formulaire, .merci, .telechargement {
+  max-width: 600px;
+  margin: 4em auto;
+  color: #fff;
+  font-family: 'Unbounded', sans-serif;
+  line-height: 1.6;
+  padding: 2em;
+}
+.formulaire {
+  background: #1a1a1a;
+  border-left: 5px solid #ffe600;
+  box-shadow: 0 0 20px rgba(255, 230, 0, 0.2);
+}
+.formulaire h2, .merci h2 {
+  color: #ffe600;
+}
+.formulaire input,
+.formulaire textarea {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  border: none;
+  border-radius: 4px;
+}
+.formulaire button {
+  background: #ffe600;
+  color: #000;
+  padding: 0.8em 1.5em;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+.formulaire button:hover {
+  background: #fff200;
+}
+.telechargement {
+  text-align: center;
+}
+.telechargement a {
+  background: #ffe600;
+  color: #000;
+  padding: 1em 2em;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.telechargement a:hover {
+  background: #fff200;
+}
+
 </style>
 </head>
 <body>
-  <div class="telechargement">
-    <a href="livret_italienne_bananight_court.pdf" download>Télécharger le livret PDF</a>
-  </div>
-  	<img src="livret_italienne_bananight_court-page001.png" alt="Page 1">
+
+<section class="formulaire" id="form-section">
+  <h2>Recevoir le livret PDF</h2>
+  <p>Merci de laisser un mot avant d'accéder au téléchargement :</p>
+  <form id="contact-form">
+    <label for="name">Votre prénom ou pseudo :</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label for="message">Un message ?</label><br>
+    <textarea name="message" required></textarea><br><br>
+
+    <button type="submit">Envoyer et accéder au livret</button>
+  </form>
+</section>
+
+<section class="merci" id="merci-section" style="display:none;">
+  <h2>Merci 🙏</h2>
+  <p>Voici le lien pour télécharger le livret :</p>
+</section>
+
+<div class="telechargement" id="telechargement" style="display:none;">
+  <a href="livret_italienne_bananight_court.pdf" download>Télécharger le livret PDF</a>
+</div>
+
+  
+  <!-- Insère ici les balises <img> une fois les images exportées -->
+	<img src="livret_italienne_bananight_court-page001.png" alt="Page 1">
 	<img src="livret_italienne_bananight_court-page002.png" alt="Page 2">
 	<img src="livret_italienne_bananight_court-page003.png" alt="Page 3">
 	<img src="livret_italienne_bananight_court-page004.png" alt="Page 4">
@@ -108,8 +183,6 @@
 	<img src="livret_italienne_bananight_court-page028.png" alt="Page 28">
 	<img src="livret_italienne_bananight_court-page029.png" alt="Page 29">
 	<img src="livret_italienne_bananight_court-page030.png" alt="Page 30">
-	<img src="livret_italienne_bananight_court-page031.png" alt="Page 31">
-	<img src="livret_italienne_bananight_court-page032.png" alt="Page 32">
 
 
 <section class="credits">
@@ -130,5 +203,32 @@
   </ul>
 </section>
 
+
+<script>
+  const form = document.getElementById('contact-form');
+  const formSection = document.getElementById('form-section');
+  const merciSection = document.getElementById('merci-section');
+  const telechargement = document.getElementById('telechargement');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = new FormData(form);
+    fetch('https://formspree.io/f/mdkggkpl', {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        formSection.style.display = 'none';
+        merciSection.style.display = 'block';
+        telechargement.style.display = 'block';
+      } else {
+        alert("Erreur lors de l'envoi. Essayez à nouveau.");
+      }
+    });
+  });
+</script>
 </body>
 </html>
