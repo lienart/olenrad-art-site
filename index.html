@@ -128,25 +128,6 @@
 </head>
 <body>
 
-<section class="formulaire" id="form-section">
-  <h2>Recevoir le livret PDF</h2>
-  <p>Merci de laisser un mot avant d'accéder au téléchargement :</p>
-  <form id="contact-form">
-    <label for="name">Votre prénom ou pseudo :</label><br>
-    <input type="text" name="name" required><br><br>
-
-    <label for="message">Un message ?</label><br>
-    <textarea name="message" required></textarea><br><br>
-
-    <button type="submit">Envoyer et accéder au livret</button>
-  </form>
-</section>
-
-<section class="merci" id="merci-section" style="display:none;">
-  <h2>Merci 🙏</h2>
-  <p>Voici le lien pour télécharger le livret :</p>
-</section>
-
 <div class="telechargement" id="telechargement" style="display:none;">
   <a href="livret_italienne_bananight_court.pdf" download>Télécharger le livret PDF</a>
 </div>
@@ -202,33 +183,5 @@
     <li><strong>Instagram :</strong> <a href="https://instagram.com/leonardium" target="_blank">@leonardium</a></li>
   </ul>
 </section>
-
-
-<script>
-  const form = document.getElementById('contact-form');
-  const formSection = document.getElementById('form-section');
-  const merciSection = document.getElementById('merci-section');
-  const telechargement = document.getElementById('telechargement');
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const data = new FormData(form);
-    fetch('https://formspree.io/f/mdkggkpl', {
-      method: 'POST',
-      body: data,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => {
-      if (response.ok) {
-        formSection.style.display = 'none';
-        merciSection.style.display = 'block';
-        telechargement.style.display = 'block';
-      } else {
-        alert("Erreur lors de l'envoi. Essayez à nouveau.");
-      }
-    });
-  });
-</script>
 </body>
 </html>
